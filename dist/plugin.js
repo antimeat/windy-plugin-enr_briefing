@@ -8,7 +8,7 @@ W.loadPlugin(
 /* Mounting options */
 {
   "name": "windy-plugin-enr_briefing",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "author": "Darryl Vink",
   "repository": {
     "type": "git",
