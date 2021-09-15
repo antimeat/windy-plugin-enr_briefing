@@ -13,7 +13,7 @@ module.exports = {
         Display name of your plugin, as it will
         appear in the menu
 	*/
-    displayName: 'resource locations',
+    displayName: 'E&R briefing ',
     
     /*
         List of class names that will be attached to your
