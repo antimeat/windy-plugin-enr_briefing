@@ -1,0 +1,161 @@
+<plugin> 
+    <!-- this Plugin does not have any HTML content -->
+    <div class="plugin-content">
+        <h3>Forecast tools:</h3>
+		<p>
+            <ul>
+				<li><a href='http://wa-aifs-local.bom.gov.au/nwp/viewers1.7/combo/',target='combo'>Combo Viewer</a></li>			
+				<li><a href='http://wa-aifs-local.bom.gov.au/nwp/viewers1.7/comparison/',target='comparison'>Model Comparison</a></li>			
+				<li><a href='http://aifs-qld.bom.gov.au/local/qld/rfc/pages/marine/waves/auswave_select.php?state=wa',target='auswave_tables'>Auswave tables</a></li>
+			</ul>		
+		</p>
+		<h3>Obs:</h3>
+		<p>
+            <ul>
+				<li><a href='https://wa-aifs-local.bom.gov.au/panther/#layersHashed=1&Channels-IR=1&Overlays-Lightning=1&Borders-Coast=1&Warnings-Sev%20TS=1&Warnings-Sev%20Wx=1&Alerts-Gusts=1&Alerts-Precip=1&Alerts-Lightning%20%26%20TAFs=1&Alerts-EnR%20squalls=1&Points-EnR=1&Points-EnR%20Custom=1&Points-EnR%20Squalls=1&Points-Ashburton%20Ob%20Sites=1&Borders-Districts=1&Borders-Marine%20Zones=1',target='panther'>Panther</a></li>
+				<li><a href='http://wa-aifs-local.bom.gov.au/davink/swell//html/dashboard.php',target='swell_obs'>WA buoys wave/tide</a></li>
+				<li><a href='http://wa-aifs-local.bom.gov.au/davink/swell_archive//html/dashboard.php',target='swell_archive'>WA buoys wave/tide (archive)</a></li>
+				<li><a href='http://tropic.ssec.wisc.edu/real-time/windmain.php?&basin=austwest&sat=wgms&prod=wvir&zoom=&time',target='simms'>Cimms winds</a></li>
+			</ul>		
+		</p>
+		
+		<h3>Rainfall:</h3>
+		<p>
+            <ul>
+				<li><a href='http://www.data.jma.go.jp/omaad/rsmc_nowcast/en/hrp/',target='hrp'>Heavy rain potential (HRP)</a></li>
+				<li><a href='https://sigma.cptec.inpe.br/scope',target='scope'>Scope-Nowcasting</a></li>
+				<li><a href='https://sharaku.eorc.jaxa.jp/GSMaP_NOW/solomon.htm',target='jaxa'>JAXA real-time rainfall</a></li>
+			</ul>		
+		</p>
+		<h3>Clients:</h3>
+		<p>
+            <ul>
+				<li><a href='https://ssuweb.bom.gov.au/ssu_internal/ssuindex.pl?p=0&login=cws&pwd=cws',target='repository'>Customer/forecast repository</a></li>	
+			</ul>		
+		</p>
+				
+    </div>
+
+	<script>
+        // Windy API modules are imported via '@windy/nameOfModule'
+        import map from '@windy/map';
+        import _ from '@windy/utils';
+        import store from '@windy/store';
+        import bcast from '@windy/broadcast';
+
+		//set up the locations
+		const locations = [ 
+			
+			['NW Cape',
+				-21.5,114,
+				"<a href='https://bom365.sharepoint.com/sites/ERG/SitePages/Woodside--Enfield.aspx', target='wiki'>Knowledge Repo</a>",
+				"<a href='http://aifs-qld.bom.gov.au/local/qld/rfc/pages/marine/waves/auswave.php?state=wa&site=Enfield', target='auswave'>Auswave</a>",
+				"<a href='http://wa-aifs-local/images/flamingo/flamingo21.50__S%20114.00__E.png', target='flamingo'>flamingo</a>",	
+				"<a href='http://wa-cws-op/risk_matrix/?site_id=Enfield&client=fcst#', target='risk-matrix'>risk-matrix</a>",	
+				"<a href='http://wa-cws-op/webapps/tc_outlook/webAPI.cgi?get=outlookText&regions=NWShelf', target='tc-rating'>TC-rating</a>",	
+				"<a href='http://wa-cws-op.bom.gov.au/web/verification/live/plot_simple.php?source=WoodsideInflux&site=Enfield', target='obs'>obs</a>",
+
+			],
+
+			['Offshore Pilbara',
+				-19.58,116.14,
+				"<a href='https://bom365.sharepoint.com/sites/ERG/SitePages/Woodside--North-Rankin.aspx', target='wiki'>Knowledge Repo</a>",
+				"<a href='http://aifs-qld.bom.gov.au/local/qld/rfc/pages/marine/waves/auswave.php?state=wa&site=Rankin', target='auswave'>Auswave</a>",
+				"<a href='http://wa-aifs-local/images/flamingo/flamingo19.58__S%20116.13__E.png', target='flamingo'>flamingo</a>",	
+				"<a href='http://wa-cws-op/risk_matrix/?site_id=North_Rankin&client=fcst#', target='risk-matrix'>risk-matrix</a>",	
+				"<a href='http://wa-cws-op/webapps/tc_outlook/webAPI.cgi?get=outlookText&regions=NWShelf', target='tc-rating'>TC-rating</a>",	
+				"<a href='http://wa-cws-op.bom.gov.au/web/verification/live/plot_simple.php?source=WoodsideInflux&site=North-Rankin', target='obs'>obs</a>",
+
+			],
+			['Timor sea',
+				-11.07,126.61,
+				"<a href='https://bom365.sharepoint.com/sites/ERG/SitePages/Santos--Bayu-Undan.aspx', target='wiki'>Knowledge Repo</a>",
+				"<a href='http://aifs-qld.bom.gov.au/local/qld/rfc/pages/marine/waves/auswave.php?state=wa&site=Bayu_Undan', target='auswave'>Auswave</a>",
+				"<a href='http://wa-aifs-local/images/flamingo/flamingo11.07__S%20126.61__E.png', target='flamingo'>flamingo</a>",	
+				"<a href='http://wa-cws-op/risk_matrix/?site_id=Bayu-Undan&client=fcst', target='risk-matrix'>risk-matrix</a>",	
+				"<a href='http://wa-cws-op/webapps/tc_outlook/webAPI.cgi?get=outlookText&regions=Northern,Northwestern', target='tc-rating'>TC-rating</a>",	
+				"<a href='http://aifs-wa.bom.gov.au/local/php_apps/obs/meteograms2.3/?avid=YBYU', target='obs'>obs</a>",				
+
+			],
+			['Browse basin',
+				-13.92,123.22,
+				"<a href='https://bom365.sharepoint.com/sites/ERG/SitePages/INPEX.aspx', target='wiki'Knowledge Repo/a>",
+				"<a href='http://aifs-qld.bom.gov.au/local/qld/rfc/pages/marine/waves/auswave.php?state=wa&site=Ichthys', target='auswave'>Auswave</a>",
+				"<a href='http://wa-aifs-local/images/flamingo/flamingo13.92__S%20123.22__E.png', target='flamingo'>flamingo</a>",	
+				"<a href='http://wa-cws-op/risk_matrix/?site_id=Ichthys&client=fcst', target='risk-matrix'>risk-matrix</a>",	
+				"<a href='http://wa-cws-op/webapps/tc_outlook/webAPI.cgi?get=outlookText&regions=Northwestern', target='tc-rating'>TC-rating</a>",	
+				"<a href='https://portal.axys-aps.com/platforms/P2202/', target='obs'>obs</a>",				
+
+			],			
+		];
+		
+        console.log('I am being mounted');
+
+		const icon = L.icon({
+            className: 'resources-icon',
+			iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-green.png',
+			//iconSize: [80, 40],
+            //iconAnchor: [20, 10],
+			opacity: 0.5,
+        });
+
+		// List of current markers and icons
+        let markers = null;
+		
+		// generate markers
+		const makeMarkers = () => {
+			markers.forEach((m, i) => {
+				const [name, lat, lon, wiki, auswave, flamingo,risk,tc,obs] = locations[i];
+			});
+		};
+		
+		// Creates marker with content
+        const createPopup = (name,lat,lon,wiki,auswave,flamingo,risk,tc,obs) => {
+            const marker = L.marker([lat, lon],{
+				icon: map.myMarkers.icon,
+				zIndexOffset: -300,
+            }).addTo(map);
+			
+			//const marker = L.marker([lat, lon],{icon}).addTo(map);
+			
+			marker.bindTooltip(name);
+		
+			//marker.on('click', (e) => {
+			marker.bindPopup('<br>' + name + '<br>' + lat + ',' + lon + '<br>' + wiki + '<br>' + auswave + '<br>' + flamingo + '<br>' + risk + '<br>' + tc + '<br>' + obs);
+			//});
+						
+			return marker;
+        };
+		
+        bcast.on('rqstClose', () => {
+		    if (!markers) {
+                markers = locations.map(p => createPopup(p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8]));
+				//markers = locations.map(p => createPopup(makeMarkers));
+				bcast.on('redrawFinished', makeMarkers);
+			}
+		});
+		
+		//	this.onopen method is called when your plugin is being opened
+        this.onopen = () => {
+            if (!markers) {
+                markers = locations.map(p => createPopup(p[0],p[1],p[2],p[3],p[4],p[5],p[6],p[7],p[8]));
+				//markers = locations.map(p => createPopup(makeMarkers));
+				bcast.on('redrawFinished', makeMarkers);
+			}
+		};
+
+        /*
+            this.onclose method is called when your plugin is being closed
+
+            Unsubscribe from all your listeners, and remove all your
+            stuff from a map
+        */
+        this.onclose = () => {
+            if (markers) {
+                markers.forEach(m => map.removeLayer(m));
+				bcast.off('redrawFinished', makeMarkers);
+                markers = null;
+            }
+        };
+    </script>
+</plugin>
